@@ -1,0 +1,1 @@
+Flask>=2.0\ngunicorn>=20.0\n

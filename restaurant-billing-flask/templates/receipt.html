@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+  <h2>Receipt</h2>
+  <p><strong>Bill No:</strong> {{ bill_no }} &nbsp; <strong>Date:</strong> {{ ts }}</p>
+
+  <table class="menu-table">
+    <thead><tr><th>Item</th><th>Qty</th><th>Price</th><th>Total</th></tr></thead>
+    <tbody>
+      {% for it in bill.items %}
+      <tr>
+        <td>{{ it.name }}</td>
+        <td>{{ it.qty }}</td>
+        <td>₹{{ '%.2f'|format(it.price) }}</td>
+        <td>₹{{ '%.2f'|format(it.total) }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <div class="totals">
+    <div>Subtotal: <strong>₹{{ '%.2f'|format(bill.subtotal) }}</strong></div>
+    <div>GST ({{ 5 }}%): <strong>₹{{ '%.2f'|format(bill.gst) }}</strong></div>
+    <div>Service ({{ 2 }}%): <strong>₹{{ '%.2f'|format(bill.service) }}</strong></div>
+    <div class="grand">Grand Total: <strong>₹{{ '%.2f'|format(bill.grand_total) }}</strong></div>
+  </div>
+
+  <div class="form-row">
+    <a href="{{ url_for('download', bill_no=bill_no) }}" class="btn">Download Receipt</a>
+    <a href="{{ url_for('index') }}" class="btn">Back to menu</a>
+  </div>
+
+  <pre class="receipt-text">{{ receipt_text }}</pre>
+</div>
+{% endblock %}

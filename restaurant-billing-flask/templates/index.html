@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="grid">
+  <section class="card">
+    <h2>Menu</h2>
+    <form method="post" action="{{ url_for('calculate') }}">
+      <table class="menu-table">
+        <thead><tr><th>Item</th><th>Price</th><th>Qty</th></tr></thead>
+        <tbody>
+          {% for name, price in menu.items() %}
+          <tr>
+            <td>{{ name }}</td>
+            <td>₹{{ '%.2f'|format(price) }}</td>
+            <td><input type="number" min="0" name="qty__{{ name }}" value="0" /></td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+      <div class="form-row">
+        <button type="submit" class="btn primary">Calculate Bill</button>
+        <button type="reset" class="btn">Clear</button>
+      </div>
+    </form>
+  </section>
+
+  <section class="card">
+    <h2>Menu Management</h2>
+
+    <form method="post" action="{{ url_for('add_item') }}" class="small-form">
+      <label>Add item</label>
+      <input name="name" placeholder="Item name" required />
+      <input name="price" placeholder="Price" required />
+      <button class="btn">Add</button>
+    </form>
+
+    <form method="post" action="{{ url_for('update_item') }}" class="small-form">
+      <label>Update item</label>
+      <input name="name" placeholder="Existing item name" required />
+      <input name="price" placeholder="New price" required />
+      <button class="btn">Update</button>
+    </form>
+
+    <form method="post" action="{{ url_for('remove_item') }}" class="small-form">
+      <label>Remove item</label>
+      <input name="name" placeholder="Item name to remove" required />
+      <button class="btn danger">Remove</button>
+    </form>
+  </section>
+</div>
+{% endblock %}
